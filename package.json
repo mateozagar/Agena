@@ -1,0 +1,36 @@
+{
+  "name": "agena",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "dev": "concurrently -k -n api,web 'npm:dev:api' 'npm:dev:web'",
+    "dev:api": "node --watch server/index.ts",
+    "dev:web": "vite --host 0.0.0.0",
+    "start": "node server/index.ts",
+    "build": "tsc --noEmit && vite build",
+    "build:static": "node scripts/build-demo.ts && tsc --noEmit && VITE_DEMO_MODE=true vite build --base=/Agena/",
+    "test": "node --test --test-isolation=none tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "demo": "node scripts/demo.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "express": "^5.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
+  }
+}
