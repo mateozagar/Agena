@@ -6,6 +6,8 @@ AGENA est un prototype indépendant pour mettre des agents persistants à l’é
 
 La première tranche fonctionne de bout en bout : un scénario de 30 jours, deux **agents scriptés**, un monde persistant, un évaluateur déterministe et un tableau de bord français. Aucun compte personnel, mail réel, rendez-vous réel ou appel LLM n’est utilisé.
 
+**[Ouvrir la démo en ligne](https://agena-arena.mateo-zagar02.chatgpt.site)** — lecteur public des deux exécutions enregistrées, avec preuves et exports. Pour lancer de nouvelles simulations et injecter un crash réel, utiliser le serveur ci-dessous.
+
 ![Tableau de bord AGENA après une véritable exécution de l’agent scripté avec mémoire](docs/assets/arena.jpg)
 
 ## Démarrer
@@ -120,7 +122,9 @@ Les observations et souvenirs sont des données explicites. Aucune prétendue ch
 
 `npm run build:static` exécute vraiment les deux agents, produit leurs traces dans `public/demo/`, puis compile un lecteur **en lecture seule**, clairement étiqueté. Les boutons de nouvelle simulation sont désactivés et renvoient vers les instructions du serveur. Chaque export reste téléchargeable.
 
-Le workflow `.github/workflows/pages.yml` publie ce lecteur via GitHub Pages lorsque **Settings → Pages → Source → GitHub Actions** est activé. La présence du workflow ne prouve pas que l’hébergement est activé. Le chemin de compilation est `/Agena/` ; adaptez `--base` si le nom du dépôt change. `npm run build` restaure une compilation pour le serveur interactif à la racine.
+Le lecteur est publié sur [Sites](https://agena-arena.mateo-zagar02.chatgpt.site), avec une compilation à la racine (`VITE_DEMO_MODE=true npx vite build --base=/`). Les données sont produites par `node scripts/build-demo.ts` avant compilation. Voir [les informations de publication](docs/DEPLOYMENT.md).
+
+GitHub Pages reste une option : activer **Settings → Pages → Source → GitHub Actions**, puis lancer manuellement le workflow `.github/workflows/pages.yml`. Il n’est plus lancé automatiquement à chaque push, car Pages n’est pas activé sur le dépôt. Le chemin de cette compilation est `/Agena/` ; adaptez `--base` si le nom du dépôt change. `npm run build` restaure une compilation pour le serveur interactif à la racine.
 
 ## Brancher un vrai agent : la suite
 
@@ -141,3 +145,5 @@ Claude Duet, Dots, bots, Hermes et OpenClaw ne sont **pas connectés**. Le monde
 Les plugins connectés à une conversation et les skills locaux sont deux choses différentes. Un plugin Exa/Firecrawl/GitHub peut être disponible dans le chat sans que vos dossiers de skills personnels aient été copiés dans sa machine distante. Le pstack original de Cursor est [ici](https://github.com/cursor/plugins/tree/main/pstack), les skills de Matt Pocock [ici](https://github.com/mattpocock/skills). Aucun de ces ensembles n’a été installé automatiquement dans ce dépôt.
 
 Le code est sauvegardé par les commits GitHub ; les fichiers ignorés (`data/`, secrets éventuels) ne le sont pas. Exportez les traces que vous voulez conserver. Un serveur lancé dans une session cloud est une prévisualisation temporaire, pas un hébergement permanent.
+
+`localhost` désigne la machine sur laquelle le navigateur tourne : l’adresse du serveur cloud ne fonctionne pas dans le navigateur de votre ordinateur. Utilisez le lien de démo en ligne pour consulter les replays sans installation. Une capture d’écran dans le chat n’est pas une prévisualisation interactive.
