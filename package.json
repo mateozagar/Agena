@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.0.0" },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "dev": "concurrently -k -n api,web 'npm:dev:api' 'npm:dev:web'",
     "dev:api": "node --watch server/index.ts",
@@ -13,7 +15,9 @@
     "build:static": "node scripts/build-demo.ts && tsc --noEmit && VITE_DEMO_MODE=true vite build --base=/Agena/",
     "test": "node --test --test-isolation=none tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "demo": "node scripts/demo.ts"
+    "demo": "node scripts/demo.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",
@@ -30,6 +34,7 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "concurrently": "^9.2.1",
+    "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "vite": "^7.2.2"
   }

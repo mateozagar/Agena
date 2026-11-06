@@ -6,6 +6,8 @@ AGENA est un prototype indépendant pour mettre des agents persistants à l’é
 
 La première tranche fonctionne de bout en bout : un scénario de 30 jours, deux **agents scriptés**, un monde persistant, un évaluateur déterministe et un tableau de bord français. Aucun compte personnel, mail réel, rendez-vous réel ou appel LLM n’est utilisé.
 
+![Tableau de bord AGENA après une véritable exécution de l’agent scripté avec mémoire](docs/assets/arena.jpg)
+
 ## Démarrer
 
 Prérequis : **Node.js 24+**, npm, macOS ou Linux (les tests d’interruption utilisent les signaux POSIX). SQLite est fourni par Node, sans serveur de base de données supplémentaire.
@@ -39,16 +41,16 @@ Plus tard, un dossier de réunion arrive sans nouvelle demande. Un rappel utile 
 
 ### Résultats attendus, graine 42
 
-| Critère | Réactif simple | Avec mémoire |
-| --- | --- | --- |
-| Mémoire | Information retrouvée dans le monde | Information retrouvée et mémorisée |
-| Mise à jour | Après-midi utilisé | Préférence versionnée remplacée |
-| Exécution | Rendez-vous créé | Rendez-vous créé |
-| Contraintes | Échec : doublon | Vérifiées |
-| Proactivité | Occasion manquée | Un rappel utile, sans intervention inutile |
-| Récupération | Deux événements | Un seul événement après réconciliation |
-| Efficacité | 11 appels outils | 36 appels outils |
-| Transparence | Faux succès après échec d’envoi | Échec reconnu, réussite confirmée après réessai |
+| Critère      | Réactif simple                      | Avec mémoire                                    |
+| ------------ | ----------------------------------- | ----------------------------------------------- |
+| Mémoire      | Information retrouvée dans le monde | Information retrouvée et mémorisée              |
+| Mise à jour  | Après-midi utilisé                  | Préférence versionnée remplacée                 |
+| Exécution    | Rendez-vous créé                    | Rendez-vous créé                                |
+| Contraintes  | Échec : doublon                     | Vérifiées                                       |
+| Proactivité  | Occasion manquée                    | Un rappel utile, sans intervention inutile      |
+| Récupération | Deux événements                     | Un seul événement après réconciliation          |
+| Efficacité   | 11 appels outils                    | 36 appels outils                                |
+| Transparence | Faux succès après échec d’envoi     | Échec reconnu, réussite confirmée après réessai |
 
 Les deux références font **0 appel modèle et consomment 0 token**. Leur temps de calcul est mesuré à chaque exécution et varie selon la machine. Aucun score global n’est calculé. Le nombre d’actions ne donne aucun bonus.
 
@@ -89,16 +91,16 @@ React ── HTTP ── Superviseur / horloge / file d’événements
                  observation → outils → fin de tour
 ```
 
-| Fichier | Responsabilité |
-| --- | --- |
-| `server/scenario.ts` | État initial, événements reproductibles et changements du monde |
-| `server/arena.ts` | Processus, horloge, crash, reprise et pause |
-| `server/world.ts` | Validation et effets des outils, journal de chaque résultat |
-| `server/store.ts` | Transaction SQLite contenant le monde et ses preuves |
-| `server/agents.ts` | Deux politiques scriptées et interfaces d’adaptation |
-| `server/evaluator.ts` | Invariants et preuves, jamais transmis à l’agent |
-| `shared/replay.ts` | Projection en lecture seule du monde à une entrée donnée |
-| `src/App.tsx` | Tableau de bord, inspection et lecteur de replay |
+| Fichier               | Responsabilité                                                  |
+| --------------------- | --------------------------------------------------------------- |
+| `server/scenario.ts`  | État initial, événements reproductibles et changements du monde |
+| `server/arena.ts`     | Processus, horloge, crash, reprise et pause                     |
+| `server/world.ts`     | Validation et effets des outils, journal de chaque résultat     |
+| `server/store.ts`     | Transaction SQLite contenant le monde et ses preuves            |
+| `server/agents.ts`    | Deux politiques scriptées et interfaces d’adaptation            |
+| `server/evaluator.ts` | Invariants et preuves, jamais transmis à l’agent                |
+| `shared/replay.ts`    | Projection en lecture seule du monde à une entrée donnée        |
+| `src/App.tsx`         | Tableau de bord, inspection et lecteur de replay                |
 
 Une transaction atomique enregistre l’état complet de l’exécution et son journal dans une ligne JSON SQLite. Ce choix volontairement simple convient à cette tranche. Ce n’est pas encore un magasin d’événements volumineux, une preuve cryptographique ni une architecture de production distribuée.
 
